@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Maikel Nadolski
+// Copyright (c) 2019 Maikel Nadolski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,26 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef DOKO_UCT_TREE_SEARCH_HPP
-#define DOKO_UCT_TREE_SEARCH_HPP
+#include "doko/net/server.hpp"
 
-#include "doko/GameRules.hpp"
+int main() {
+  boost::asio::io_context io_context(1);
+  boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+  signals.async_wait([&](auto, auto) { io_context.stop(); });
 
-namespace doko {
+  auto server = std::make_shared<doko::server>(boost::asio::ip::tcp::acceptor(
+      io_context, {boost::asio::ip::tcp::v4(), 8000}));
+  server->listen();
 
-template <typename GameState>
-span<const Action> NextLegalActions(const GameState& state,
-                                    std::array<Action, 13>& buffer);
-
-template <typename RandomNumberGenerator>
-Action SelectAction(span<const Action> actions, RandomNumberGenerator& gen);
-
-template <typename GameState, typename RandomNumberGenerator>
-Action NextRandomAction(const GameState& state, RandomNumberGenerator& gen) {
-  std::array<Action, 13> buffer;
-  return SelectAction(NextLegalActions(state, buffer), gen);
+  try {
+    io_context.run();
+  } catch (std::exception& e) {
+    std::cerr << "[ERROR] " << e.what() << '\n';
+  }
 }
-
-} // namespace doko
-
-#endif // DOKO_UCT_TREE_SEARCH_HPP

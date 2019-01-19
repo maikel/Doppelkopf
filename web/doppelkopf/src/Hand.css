@@ -1,0 +1,12 @@
+.Card {
+  width: calc(0.66 * 18vh);
+  height: 18vh;
+}
+
+.Hand .Card {
+  transition: all 0.1s ease;
+}
+
+.Hand .Card:hover {
+  transform: scale(1.1);
+}

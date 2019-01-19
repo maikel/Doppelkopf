@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Maikel Nadolski
+// Copyright (c) 2019 Maikel Nadolski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,40 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef DOKO_STATIC_VECTOR_HPP
-#define DOKO_STATIC_VECTOR_HPP
+#ifndef DOKO_RANDOM_HPP
+#define DOKO_RANDOM_HPP
+
+#include "doko/action.hpp"
+#include "doko/game_rules.hpp"
+#include "doko/static_vector.hpp"
 
 #include <algorithm>
+#include <iterator>
+#include <random>
 
 namespace doko {
 
-template <typename T, int N> class StaticVector {
-public:
-  StaticVector() = default;
-  StaticVector(int size, const T& default_value) : size_{size} {
-    std::fill_n(data(), size, default_value);
+template <typename InputIter, typename RandomNumberGenerator>
+InputIter select_randomly(InputIter first, InputIter last,
+                          RandomNumberGenerator& gen) {
+  std::uniform_int_distribution<> uniform_dist(
+      0, std::max(0L, std::distance(first, last) - 1));
+  std::advance(first, uniform_dist(gen));
+  return first;
+}
+
+template <typename Rng, typename Rules>
+action select_random_legal_action(span<const action> history,
+                                  span<const card> current_hand,
+                                  span<const card> trick, Rng& gen,
+                                  const Rules& rules) {
+  static_vector<action, 13> legal =
+      rules.legal_actions(current_hand, trick, history);
+  if (legal[0].as_bid()) {
+    return *select_randomly(legal.begin() + 1, legal.end(), gen);
   }
-
-  T* data() noexcept { return data_; }
-  const T* data() const noexcept { return data_; }
-
-  int size() const noexcept { return size_; }
-
-  T& operator[](int i) noexcept { return data_[i]; }
-  const T& operator[](int i) const noexcept { return data_[i]; }
-
-  T* begin() noexcept { return data(); }
-  const T* begin() const noexcept { return data(); }
-  const T* cbegin() const noexcept { return data(); }
-
-  T* end() noexcept { return data() + size_; }
-  const T* end() const noexcept { return data() + size_; }
-  const T* cend() const noexcept { return data() + size_; }
-
-private:
-  T data_[N];
-  int size_;
-};
+  return *select_randomly(legal.begin(), legal.end(), gen);
+}
 
 } // namespace doko
 

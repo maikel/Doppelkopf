@@ -1,0 +1,73 @@
+/* button {
+  font-size: calc(10px + 2vmin);
+}
+
+input {
+  font-size: calc(10px + 2vmin);
+}
+*/
+.Lobby {
+  text-align: center;
+  align-items: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.tableList {
+  min-height: 50vh;
+  border: 1px solid rgb(200, 200, 200);
+}
+
+.tableListEntry {
+  padding-top: calc(5vh - 14pt);
+  vertical-align: center;
+  font-size: 16pt;
+  height: 10vh;
+  border: 1px solid rgb(200, 200, 200);
+}
+
+.tableListEntry:hover {
+  background-color: rgb(232, 243, 255);
+  border: 1px solid rgb(200, 200, 200);
+}
+.signIn {
+  font-size: 16pt;
+  color: black;
+}
+.signIn:hover {
+  color: #007bff;
+}
+
+.deleteTable {
+  font-size: 15pt;
+  color: black;
+}
+.deleteTable:hover {
+  color: #dc3545;
+}
+
+/* .Lobby ul {
+  margin-top: 0;
+  padding: 0;
+  margin-bottom: 1em;
+  list-style-type: none;
+  border: 2px solid rgb(91, 91, 91);
+}
+
+.Lobby li.selected {
+  border: 2px solid black;
+  background-color: rgb(186, 186, 186);
+  color: black;
+}
+
+.Lobby li:hover {
+  background-color: rgb(155, 155, 155);
+  color: black;
+}
+
+.Lobby .List {
+  text-align: left;
+  height: 60vh;
+  width: 80vw;
+  border: 2px solid white;
+} */

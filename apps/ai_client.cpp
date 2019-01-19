@@ -18,16 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "doko/action.hpp"
+#include "doko/net/ai_client.hpp"
 
-namespace doko {
+int main() {
+  boost::asio::io_context io_context(1);
+  boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+  signals.async_wait([&](auto, auto) { io_context.stop(); });
 
-bool operator==(action a1, action a2) noexcept {
-  return static_cast<std::byte>(a1) == static_cast<std::byte>(a2);
-}
-
-bool operator!=(action a1, action a2) noexcept {
-  return static_cast<std::byte>(a1) != static_cast<std::byte>(a2);
-}
-
+  doko::ai_client_options options{
+      .table_name = "table",
+      .action_kernel_options = {.n_trees = 100, .n_rollouts = 10'000},
+      .contract_kernel_options = {.n_trees = 100, .n_rollouts = 5'000}};
+  doko::ai_client::make_shared(io_context, options)->run("localhost", "8000");
+  try {
+    io_context.run();
+  } catch (std::exception& e) {
+    fmt::print("[");
+    fmt::print(fg(fmt::terminal_color::red), "ERROR");
+    fmt::print("] {}\n", e.what());
+  }
 }

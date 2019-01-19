@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Maikel Nadolski
+// Copyright (c) 2017 Maikel Nadolski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,16 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "doko/action.hpp"
+#ifndef FUB_CORE_DYNAMIC_EXTENT_HPP
+#define FUB_CORE_DYNAMIC_EXTENT_HPP
 
-namespace doko {
+#include <cstddef>
 
-bool operator==(action a1, action a2) noexcept {
-  return static_cast<std::byte>(a1) == static_cast<std::byte>(a2);
-}
+namespace fub {
+/// This is a magic value to denote runtime-known extents.
+static constexpr std::ptrdiff_t dynamic_extent{-1};
+} // namespace fub
 
-bool operator!=(action a1, action a2) noexcept {
-  return static_cast<std::byte>(a1) != static_cast<std::byte>(a2);
-}
-
-}
+#endif

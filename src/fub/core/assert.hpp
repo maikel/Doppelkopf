@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Maikel Nadolski
+// Copyright (c) 2019 Maikel Nadolski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,4 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "GameRules.hpp"
+#include <cassert>
+
+#ifndef FUB_CORE_ASSERT_HPP
+#define FUB_CORE_ASSERT_HPP
+
+#ifndef FUB_NO_ASSERTIONS
+  #ifdef FUB_THROW_ON_ASSERTION_FAILURE
+    #define FUB_ASSERT(x) if ((x)) { throw assertion_failure(); } /**/
+  #else
+    #define FUB_ASSERT(x) assert(x)
+  #endif
+#else
+  #define FUB_ASSERT(x)
+#endif
+
+#endif

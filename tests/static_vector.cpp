@@ -1,5 +1,5 @@
-#include "doko/Action.hpp"
-#include "doko/StaticVector.hpp"
+#include "doko/action.hpp"
+#include "doko/static_vector.hpp"
 
 #include <array>
 #include <cstdio>
@@ -7,10 +7,10 @@
 int main() {
   using namespace doko;
   struct alignas(64) State {
-    StaticVector<Action, 58> actions;
-    std::array<Card, 48> initial_hands;
-    PlayerId initial_player;
-    PlayerId current_player;
+    static_vector<action, 58> actions;
+    std::array<card, 48> initial_hands;
+    player_id initial_player;
+    player_id current_player;
     std::uint8_t contra_eyes;
     std::uint8_t re_eyes;
     std::uint8_t contra_bid;

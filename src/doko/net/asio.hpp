@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Maikel Nadolski
+// Copyright (c) 2019 Maikel Nadolski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,20 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef DOKO_GAMERULES_HPP
-#define DOKO_GAMERULES_HPP
+#ifndef DOKO_SERVER_ASIO_HPP
+#define DOKO_SERVER_ASIO_HPP
 
-#include "doko/Action.hpp"
-#include "doko/StaticVector.hpp"
-
-#include <array>
+#include <boost/asio.hpp>
+#include <boost/beast.hpp>
 
 namespace doko {
 
-struct NormalGameRules {
-  static Party InitialParty(PlayerId player, span<const Card, 12> initial_hand) noexcept;
-};
+namespace net = boost::asio;
+namespace websocket = boost::beast::websocket;
+using net::ip::tcp;
+using boost::beast::error_code;
 
-} // namespace doko
+}
 
-#endif // DOKO_GAMERULES_HPP
+#endif
